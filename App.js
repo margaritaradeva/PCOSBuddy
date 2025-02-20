@@ -1,13 +1,12 @@
 // Import all of the necessary libraries, screens and components
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native'; // Main navigation container and theming
-import { LoadingScreen } from './screens';
+import { Features, Home, LoadingScreen } from './screens';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'; // Stack navigator
 import { useEffect } from 'react'; // React hooks
-import useGlobally from './assets/components' // Custom hook for global state management
 import { LogBox } from 'react-native';
-import TabNavigation from './assets/components/TabNavigation';
 import LoginScreen from './screens/LoginScreen';
 import SignUpScreen from './screens/SignupScreen';
+import { TabNavigation } from './bottom_navigation';
 
 
 LogBox.ignoreLogs(['new NativeEventEmitter']);
@@ -36,7 +35,7 @@ export default function App() {
                 <>
                   <Stack.Screen
                         name="Loading"
-                        component={SignUpScreen}
+                        component={TabNavigation}
                         options={{headerShown:false}}/>
                 </>
                 ) : !authenticated ? (

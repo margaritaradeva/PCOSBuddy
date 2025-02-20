@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const Home = () => {
+const Tips = () => {
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>Home</Text>
+            <Text style={styles.text}>Tips</Text>
         </View>
     );
 };
@@ -22,4 +22,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Home;
+export default Tips;
