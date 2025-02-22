@@ -4,40 +4,133 @@ import {
   View, 
   Text, 
   StyleSheet, 
-  FlatList, 
   TouchableOpacity, 
   Image, 
   Dimensions,
   ImageBackground 
 } from 'react-native';
+import DraggableFlatList from 'react-native-draggable-flatlist';
 import { chatBackground, water } from '../assets/images';
-import Tips from './Tips';
-
-const trackers = [
+  
+const initialTrackers = [
   {
     id: '1',
-    title: 'Water Tracker',
-    description: 'Track your daily water intake.',
-    image: water,
-    screen: Tips,
+    title: 'Irregular Periods',
+    description: 'Tracks cycle length, missed periods, and symptoms associated with irregular cycles.',
+    screen: 'Development',
   },
   {
     id: '2',
-    title: 'BMI Tracker',
-    description: 'Monitor your BMI.',
-    image: water,
-    screen: Tips,
+    title: 'Ovulation & Libido Tracker',
+    description: 'Monitors ovulation via line graphs, with indicators for ovulation days.',
+    screen: 'Development',
   },
   {
     id: '3',
-    title: 'Food Tracker',
-    description: 'Log your meals.',
-    image: water,
-    screen: Tips,
+    title: 'Infertility Tracker',
+    description: 'Monitors all aspects of fertility, such as ovulation, cervical mucus, and fertility treatments.',
+    screen: 'Development',
+  },
+  {
+    id: '4',
+    title: 'Cervival Mucus Tracker',
+    description: 'Helps users identify their fertile window and ovulation by tracking cervical mucus consistency.',
+    screen: 'Development',
+  },
+  {
+    id: '5',
+    title: 'Cysts on Ovaries',
+    description: 'Tracks ovarian cysts development, size, and associated symptoms.',
+    screen: 'Development',
+  },
+  {
+    id: '6',
+    title: 'Acne Tracker',
+    description: 'Monitors acne flare-ups triggered by hormonal imbalances.',
+    screen: 'Development',
+  },
+  {
+    id: '7',
+    title: 'PCOC-related Skin Conditions',
+    description: 'Tracks skin changes related to PCOS, like acanthosis.',
+    screen: 'Development',
+  },
+  {
+    id: '8',
+    title: 'Skin Texture & Oiliness',
+    description: 'Monitors changes in skin texture and oil production due to hormonal shifts in PCOS.',
+    screen: 'Development',
+  },
+  {
+    id: '9',
+    title: 'Excess Hair Growth (Hirsutism)',
+    description: 'Tracks unwanted hair growth often caused by PCOS.',
+    screen: 'Development',
+  },
+  {
+    id: '10',
+    title: 'BMI Tracker',
+    description: 'Tracks BMI to monitor weight changes, which are a common issue with PCOS.',
+    screen: 'Development',
+  },
+  {
+    id: '11',
+    title: 'Insulin Resistance Tracker',
+    description: 'Monitors insulin resistance, common in PCOS, which can affect weight and metabolic health.',
+    screen: 'Development',
+  },
+  {
+    id: '12',
+    title: 'Blood Pressure',
+    description: 'Monitors blood pressure, as hypertension is common in women with PCOS.',
+    screen: 'Development',
+  },
+  {
+    id: '13',
+    title: 'Pelvic Pain Tracker',
+    description: 'Monitors pelvic pain, often experienced with PCOS or endometriosis.',
+    screen: 'Development',
+  },
+  {
+    id: '14',
+    title: 'Headaches/Migranes',
+    description: 'Tracks frequency, severity, and triggers of headaches or migraines, often caused by hormonal fluctuations.',
+    screen: 'Development',
+  },
+  {
+    id: '15',
+    title: 'Joint Pain',
+    description: 'Monitors joint pain or stiffness related to inflammation from PCOS.',
+    screen: 'Development',
+  },
+  {
+    id: '16',
+    title: 'Nausea & Digestive Issues',
+    description: 'Tracks nausea, bloating, and other digestive issues related to PCOS.',
+    screen: 'Development',
+  },
+  {
+    id: '17',
+    title: 'Mood Swings',
+    description: 'Monitors emotional fluctuations.',
+    screen: 'Development',
+  },
+  {
+    id: '18',
+    title: 'Fatigue',
+    description: 'Tracks fatigue levels and how they affect daily activities.',
+    screen: 'Development',
+  },
+  {
+    id: '19',
+    title: 'Anxiety & Stress',
+    description: 'Monitors anxiety and stress, which can worsen PCOS symptoms.',
+    screen: 'Development',
   },
 ];
 
 const Trackers = ({ navigation }) => {
+  const [data, setData] = useState(initialTrackers);
   const [showInfo, setShowInfo] = useState(false);
 
   const handlePress = (screen) => {
@@ -48,9 +141,13 @@ const Trackers = ({ navigation }) => {
     }
   };
 
-  const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.card} onPress={() => handlePress(item.screen)}>
-      <Image source={item.image} style={styles.image} resizeMode="contain" />
+  const renderItem = ({ item, drag, isActive }) => (
+    <TouchableOpacity
+      style={[styles.card, isActive && styles.activeCard]}
+      onLongPress={drag}
+      onPress={() => handlePress(item.screen)}
+    >
+      <Image source={water} style={styles.image} resizeMode="contain" />
       <Text style={styles.cardTitle}>{item.title}</Text>
       <Text style={styles.cardDescription}>{item.description}</Text>
     </TouchableOpacity>
@@ -69,17 +166,17 @@ const Trackers = ({ navigation }) => {
               {showInfo && (
                 <View style={styles.tooltip}>
                   <Text style={styles.tooltipText}>
-                    Tap a tracker card to access detailed logs and insights about your progress.
+                    Each tracker on this page will help you manage your PCOS symptoms better. To reorder trackers, simply hold and drag them.
                   </Text>
                 </View>
               )}
             </View>
           </View>
-          <FlatList
-            data={trackers}
-            renderItem={renderItem}
+          <DraggableFlatList
+            data={data}
+            onDragEnd={({ data }) => setData(data)}
             keyExtractor={(item) => item.id}
-            showsVerticalScrollIndicator={false}
+            renderItem={renderItem}
             contentContainerStyle={styles.listContainer}
           />
         </View>
@@ -101,7 +198,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(255,255,255,0.7)',
+    backgroundColor: 'rgb(249, 237, 252)',
     paddingVertical: 20,
   },
   headerRow: {
@@ -109,13 +206,13 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'center',
     position: 'relative',
+    marginBottom: 10,
   },
   header: {
     fontSize: 28,
     fontWeight: 'bold',
     color: '#FF5B82',
     textAlign: 'center',
-    marginBottom: 10,
   },
   infoContainer: {
     marginLeft: 5,
@@ -148,7 +245,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
     width: 220,
-    zIndex: 1,
+    zIndex: 6,
   },
   tooltipText: {
     fontSize: 14,
@@ -157,7 +254,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   listContainer: {
-    paddingBottom: 20,
+    paddingBottom: 10,
     alignItems: 'center',
   },
   card: {
@@ -175,9 +272,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(255, 91, 130, 0.2)',
   },
+  activeCard: {
+    opacity: 0.8,
+  },
   image: {
-    width: cardWidth * 0.6,
-    height: cardWidth * 0.6,
+    width: cardWidth * 0.4,
+    height: cardWidth * 0.3,
     marginBottom: 15,
   },
   cardTitle: {
