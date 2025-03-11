@@ -3,7 +3,9 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { Provider } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { AIassistant, Home, Trackers, Tips, Settings } from '../screens';
+import { AIassistant, Home, Trackers, Tips, Settings, LoadingScreen } from '../screens';
+import SignUpScreen from '../screens/SignupScreen';
+import LoginScreen from '../screens/LoginScreen';
 
 const Tab = createMaterialBottomTabNavigator();
 

@@ -5,6 +5,7 @@ import Tips from './Tips';
 import AIassistant from './AIassistant';
 import Settings from './Settings';
 import Development from './Development';
+import IrregularPeriodsScreen from './IrregularPeriodsScreen';
+import BmiWeightScreen from './BmiWeightScreen';
 
-
-export { Trackers, Home, LoadingScreen, Tips, AIassistant, Settings, Development };
+export { Trackers, Home, LoadingScreen, Tips, AIassistant, Settings, Development, IrregularPeriodsScreen, BmiWeightScreen};

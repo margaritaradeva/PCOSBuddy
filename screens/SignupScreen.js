@@ -32,6 +32,10 @@ export default function SignUpScreen({navigation}) {
 
     const [seePassword, setSeePassword] = useState(false)
     const [seePasswordRepeated, setSeePasswordRepeated] = useState(false)
+
+    const [signupPressCount, setSignupPressCount] = useState(0);
+
+    
     useEffect (() => {
         updatePasswordFeedback(password);
     }, [password]);
@@ -205,6 +209,12 @@ export default function SignUpScreen({navigation}) {
           }
           console.log("we came here2")
         
+          if (signupPressCount >= 1) {
+                      navigation.navigate('Home');
+                  } else {
+                       setSignupPressCount(signupPressCount + 1);
+                     console.log("Press the button again to proceed to Home.");
+                  }
         
     }
     
@@ -323,7 +333,7 @@ export default function SignUpScreen({navigation}) {
                                     entering={FadeInDown.duration(2000).springify()}
                                     style={styles.signUpRow}>
                                         <Text style={styles.textForms}>Already have an account? </Text>
-                                        <TouchableOpacity onPress={() => navigation.navigate('Log In')}>
+                                        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
                                             <Text style={styles.signUpText}>Log in</Text>
                                         </TouchableOpacity>
                                 </Animated.View>

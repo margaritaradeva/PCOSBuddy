@@ -7,8 +7,11 @@ import {
   TouchableOpacity, 
   ScrollView 
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const Settings = () => {
+  const navigation = useNavigation();
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.headerContainer}>
@@ -59,7 +62,14 @@ const Settings = () => {
           <TouchableOpacity style={styles.option}>
             <Text style={styles.optionText}>About</Text>
           </TouchableOpacity>
+          <TouchableOpacity 
+            style={styles.logoutsection} 
+            onPress={() => navigation.navigate('Login')}
+          >
+            <Text style={styles.logoutText}>Log Out</Text>
+          </TouchableOpacity>
         </View>
+        
       </ScrollView>
     </SafeAreaView>
   );
@@ -112,6 +122,26 @@ const styles = StyleSheet.create({
   optionText: {
     fontSize: 18,
     color: '#555',
+  },
+  logoutContainer: {
+    marginVertical: 20,
+    alignItems: 'center',
+  },
+  logoutsection: {
+    marginVertical: 10,
+    backgroundColor: '#ededed',
+    borderRadius: 10,
+    padding: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+  logoutText: {
+    fontSize: 22,
+    color: 'red',
+    fontWeight: 'bold',
   },
 });
 

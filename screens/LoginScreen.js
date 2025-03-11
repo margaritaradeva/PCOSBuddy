@@ -13,7 +13,7 @@ export default function LoginScreen({navigation}) {
     // Shared value for animation
     const translateY = useSharedValue(0)
     const animationDuration = 1000
-
+    const [loginPressCount, setLoginPressCount] = useState(0);
     // Animation effect for logo
     useEffect(() => {
       translateY.value = withRepeat(
@@ -46,39 +46,41 @@ export default function LoginScreen({navigation}) {
     let validationErrors = false
     // Function that checks user input before sending an API call
     async function onLogIn() {
-        // Clear previous error
-        setRequestError('')
-        // Check email
-        const noEmail = !email
-        if (noEmail) {
-            setEmailError('Email is required')
+        setRequestError('');
+        let validationErrors = false;
+        
+        // Validate email
+        if (!email) {
+            setEmailError('Email is required');
+            validationErrors = true;
         } else {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
-            setEmailError('Please enter a valid email address');
-            validationErrors = true
-        }
-    }
-        // Check password
-        const noPassword = !password
-        if (noPassword) {
-            setPasswordError('Password is required')
-        }
-        // Break out of this function if there were any issues
-        if (noEmail || noPassword || validationErrors) {
-            return
-        }
-        try{
-            await login({ email: email, password: password }) 
-        } catch (error) {
-            if (error.response && error.response.status === 401) {
-                setRequestError('Invalid email or password.');
-            } else {
-                console.log(error)
-                setRequestError('An unexpected error ocurred. Please try again.')
-              }
+                setEmailError('Please enter a valid email address');
+                validationErrors = true;
             }
         }
+        // Validate password
+        if (!password) {
+            setPasswordError('Password is required');
+            validationErrors = true;
+        }
+        if (validationErrors) {
+            return;
+        }
+        
+        // If validation passed, check the press count
+        console.log("hey")
+        if (loginPressCount >= 1) {
+            // Navigate to Home screen (using your "Go Back" route which loads TabNavigation)
+            navigation.navigate('Home');
+        } else {
+            setLoginPressCount(loginPressCount + 1);
+            // Optionally: Display a message telling the user to press again
+            console.log("Press the button again to proceed to Home.");
+        }
+    }
+
     
     // JSX
     return (
@@ -161,7 +163,7 @@ export default function LoginScreen({navigation}) {
                     entering={FadeInDown.duration(2000).springify()}
                     style={styles.signUpRow}>
                         <Text>Don't have an account? </Text>
-                        <TouchableOpacity onPress={() => navigation.navigate('Sign Up')}>
+                        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
                             <Text style={styles.signUpText}>Sign up</Text>
                         </TouchableOpacity>
                 </Animated.View>
